@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mirror</title>
+</head>
+
+<body>
+</body>
+<button id="clearWindow" onclick="start()"> Отчистить экран / создать контейнеры</button>
+<div class=" flex-container ">
+
+</div>
+
+</html>
+
+<style>
+    .body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .flex-container>div {
+        border: 1px solid;
+        width: 30px;
+        height: 30px;
+    }
+</style>
+
+<script>
+    // Случаный RGB
+    function getRandom() {
+        const number1 = Math.floor(Math.random() * 255);
+        const number2 = Math.floor(Math.random() * 255);
+        const number3 = Math.floor(Math.random() * 255);
+        return `rgb(${number1},${number2},${number3})`;
+    }
+
+    // Создание контейнеров
+    function createContainer() {
+        let number = prompt('Введите размер сетки, например 16');
+        number *= number;
+        const containerFlex = document.querySelector(".flex-container");
+        containerFlex.style.display = 'flex';
+        containerFlex.style.flexWrap = 'wrap';
+        containerFlex.style.background = 'none';
+        containerFlex.style.height = '90vh';
+        containerFlex.style.width = '95vw';
+        for (let i = 1; i <= number; i++) {
+            containerFlex.innerHTML += '<div><br/></div>';
+        }
+    }
+
+    // Окрашивание контейнеров при наведении
+    function paintingContainer() {
+        const containerFlexAll = document.querySelector(".flex-container ").querySelectorAll("div ");
+        containerFlexAll.forEach((item) => {
+            item.addEventListener('mouseover', () => {
+                item.style.cssText = `background: ${getRandom()}`;
+            });
+        });
+    }
+
+    // Отчистка экрана при нажатии на кнопку
+    function cleaningContainer() {
+        const clearWindow = document.querySelector("#clearWindow ");
+        clearWindow.addEventListener('click', () => {
+            document.querySelector(".flex-container ").querySelectorAll("div ").forEach((item) => {
+                item.style.cssText = 'background: none';
+            });
+        });
+    }
+
+    createContainer();
+    paintingContainer();
+    cleaningContainer();
+
+    function start() {
+        if (document.querySelector(".flex-container").querySelector("div").style.background.search('none') !== -1) {
+            document.querySelector(".flex-container ").style.display = 'none';
+            document.querySelector(".flex-container ").innerHTML = '';
+            createContainer();
+            paintingContainer();
+            cleaningContainer();
+        }
+    }
+</script>
