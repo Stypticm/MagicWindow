@@ -22,11 +22,10 @@
         margin: 0;
         padding: 0;
     }
-    
-    .flex-container>div {
+
+    .item {
+        margin: 1px;
         border: 1px solid;
-        width: 30px;
-        height: 30px;
     }
 </style>
 
@@ -38,46 +37,50 @@
         const number3 = Math.floor(Math.random() * 255);
         return `rgb(${number1},${number2},${number3})`;
     }
-
     // Создание контейнеров
     function createContainer() {
         let number = prompt('Введите размер сетки, например 16');
         number *= number;
+        let chislo = Math.sqrt(number);
         const containerFlex = document.querySelector(".flex-container");
+        
+        containerFlex.style.background = 'none';
         containerFlex.style.display = 'flex';
         containerFlex.style.flexWrap = 'wrap';
-        containerFlex.style.background = 'none';
         containerFlex.style.height = '90vh';
-        containerFlex.style.width = '95vw';
-        for (let i = 1; i <= number; i++) {
-            containerFlex.innerHTML += '<div><br/></div>';
+        containerFlex.style.flexDirection = 'row';
+        containerFlex.style.justifyContent = 'center';
+        containerFlex.style.alignItems = 'center';
+        containerFlex.style.alignContent = 'center';
+        for (let i = 0; i < number; i++) {
+            containerFlex.innerHTML += '<div class="item"><br/></div>';
+            document.querySelectorAll('.item')[i].style.width = `calc(90% / ${chislo})`;
+            document.querySelectorAll('.item')[i].style.height = `calc(90% / ${chislo})`;
         }
-    }
 
+        
+    }
     // Окрашивание контейнеров при наведении
     function paintingContainer() {
         const containerFlexAll = document.querySelector(".flex-container ").querySelectorAll("div ");
         containerFlexAll.forEach((item) => {
             item.addEventListener('mouseover', () => {
-                item.style.cssText = `background: ${getRandom()}`;
+                item.style.background = `${getRandom()}`;
             });
         });
     }
-
     // Отчистка экрана при нажатии на кнопку
     function cleaningContainer() {
         const clearWindow = document.querySelector("#clearWindow ");
         clearWindow.addEventListener('click', () => {
             document.querySelector(".flex-container ").querySelectorAll("div ").forEach((item) => {
-                item.style.cssText = 'background: none';
+                item.style.background = 'none';
             });
         });
     }
-
     createContainer();
     paintingContainer();
     cleaningContainer();
-
     function start() {
         if (document.querySelector(".flex-container").querySelector("div").style.background.search('none') !== -1) {
             document.querySelector(".flex-container ").style.display = 'none';
